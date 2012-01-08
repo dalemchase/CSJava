@@ -67,7 +67,7 @@ public class BasicCalculator {
 				Double answer = new Double(Value2);
 				textFieldDisplay.setText( answer.toString() );
 				// Reset the operation to show no current operation
-				operation = NO_OPERATION;
+				//operation = NO_OPERATION;
 			}
 		}
 
