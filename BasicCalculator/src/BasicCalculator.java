@@ -14,13 +14,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class BasicCalculator {
-	private static final int FRAME_WIDTH = 150;
-	private static final int FRAME_HEIGHT = 120;
+	private static final int FRAME_WIDTH = 350;
+	private static final int FRAME_HEIGHT = 160;
 
 	// Keeps track of the current operation (subtract, add, etc)
 	private static final int NO_OPERATION = 0;
 	private static final int ADDITION = 1;
 	private static final int SUBTRACTION = 2;	// Define subtract op
+	private static final int MULTIPLICATION = 3;	// Define multiply op
+	private static final int DIVISION = 4;	// Define divide op
+	private static final int POWER = 5;	// Define power op
 	public static int operation = NO_OPERATION;
 
 	public static JTextField textFieldDisplay;
@@ -35,14 +38,53 @@ public class BasicCalculator {
 		// create two buttons, plus and equal and a text box for answers
 		textFieldDisplay = new JTextField(10);
 		buttonPanel.add(textFieldDisplay);
-		JButton buttonPlus = new JButton(" + ");
-		buttonPanel.add(buttonPlus);
 		JButton buttonEqual = new JButton(" = ");
 		buttonPanel.add(buttonEqual);
+		JButton buttonPlus = new JButton(" + ");
+		buttonPanel.add(buttonPlus);
 		// create subtract button
 		JButton buttonMinus = new JButton(" - ");
 		buttonPanel.add(buttonMinus);
-
+		// create multiply button
+		JButton buttonMultiply = new JButton(" * ");
+		buttonPanel.add(buttonMultiply);
+		// create divide button
+		JButton buttonDivide = new JButton(" / ");
+		buttonPanel.add(buttonDivide);
+		// create power button
+		JButton buttonPower = new JButton("a^b");
+		buttonPanel.add(buttonPower);
+		// create root button
+		JButton buttonRoot = new JButton(" C ");
+		buttonPanel.add(buttonRoot);
+		// create sine button
+		JButton buttonSine = new JButton("sin");
+		buttonPanel.add(buttonSine);
+		// create cosine button
+		JButton buttonCosine = new JButton("cos");
+		buttonPanel.add(buttonCosine);
+		// create tangent button
+		JButton buttonTangent = new JButton("tan");
+		buttonPanel.add(buttonTangent);
+		// create negative button
+		JButton buttonNeg = new JButton("-x ");
+		buttonPanel.add(buttonNeg);
+		// create invert button
+		JButton buttonInv = new JButton("1/x");
+		buttonPanel.add(buttonInv);
+		// create save button
+		JButton buttonSave = new JButton("MS");
+		buttonPanel.add(buttonSave);
+		// create mem button
+		JButton buttonMem = new JButton("MR");
+		buttonPanel.add(buttonMem);
+		// create mem clear button
+		JButton buttonClear = new JButton("MC");
+		buttonPanel.add(buttonClear);
+		// create PI button
+		JButton buttonPi = new JButton("PI");
+		buttonPanel.add(buttonPi);
+		
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setTitle("Basic Calculator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,14 +102,26 @@ public class BasicCalculator {
 					Value2 += Value1;
 				}
 				else if (operation == SUBTRACTION) {
-					// plus sign pressed before the equal sign
+					// minus sign pressed before the equal sign
 					Value2 = Value1 - Value2;
+				}
+				else if (operation == MULTIPLICATION) {
+					 // multiply sign pressed before the equal sign
+					Value2 = Value1 * Value2;
+				}
+				else if (operation == DIVISION) {
+					 // divide sign pressed before the equal sign
+					Value2 = Value1 / Value2;
+				}
+				else if (operation == POWER) {
+					 // POWER sign pressed before the equal sign
+					Value2 = Math.pow(Value1, Value2);
 				}
 				// Convert from a answer to a string
 				Double answer = new Double(Value2);
 				textFieldDisplay.setText( answer.toString() );
 				// Reset the operation to show no current operation
-				//operation = NO_OPERATION;
+				operation = NO_OPERATION;
 			}
 		}
 
@@ -89,7 +143,70 @@ public class BasicCalculator {
 			}
 		}
 
+		// called when a multiply sign '*' is pressed
+		class MultiplySignListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				operation = MULTIPLICATION;
+			}
+		}
+		
+		// called when a divide sign '/' is pressed
+		class DivideSignListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				operation = DIVISION;
+			}
+		}
+
+		// called when a power sign 'PWR' is pressed
+		class PowerSignListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				operation = POWER;
+			}
+		}
+
+		// called when the 'C' sign is pressed
+		class SquareRootListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = Math.sqrt(Value1);
+				Double answer = new Double(Value1);
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+
+		// called when the 'sin' sign is pressed
+		class SinListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				//Value1 = Math.sin(Math.toRadians(Value1));
+				Double answer = new Double(Math.sin(Math.toRadians(Value1)));
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+		
+		// called when the 'cos' sign is pressed
+		class CosListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				//Value1 = Math.sin(Math.toRadians(Value1));
+				Double answer = new Double(Math.cos(Math.toRadians(Value1)));
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+
 		// Add the methods that will be called when these buttons are pressed
+		ActionListener cosListener = new CosListener();
+		buttonCosine.addActionListener(cosListener);
+		
 		ActionListener plusSignListener = new PlusSignListener();
 		buttonPlus.addActionListener(plusSignListener);
 
@@ -98,6 +215,21 @@ public class BasicCalculator {
 
 		ActionListener equalSignListener = new EqualSignListener();
 		buttonEqual.addActionListener(equalSignListener);
+		
+		ActionListener multiplySignListener = new MultiplySignListener();
+		buttonMultiply.addActionListener(multiplySignListener);
+
+		ActionListener divideSignListener = new DivideSignListener();
+		buttonDivide.addActionListener(divideSignListener);
+
+		ActionListener powerSignListener = new PowerSignListener();
+		buttonPower.addActionListener(powerSignListener);
+
+		ActionListener squareRootListener = new SquareRootListener();
+		buttonRoot.addActionListener(squareRootListener);
+
+		ActionListener sinListener = new SinListener();
+		buttonSine.addActionListener(sinListener);
 
 	}
 }
