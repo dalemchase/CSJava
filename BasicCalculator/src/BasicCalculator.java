@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class BasicCalculator {
-	private static final int FRAME_WIDTH = 350;
-	private static final int FRAME_HEIGHT = 160;
+	private static final int FRAME_WIDTH = 250;
+	private static final int FRAME_HEIGHT = 200;
 
 	// Keeps track of the current operation (subtract, add, etc)
 	private static final int NO_OPERATION = 0;
@@ -28,6 +28,7 @@ public class BasicCalculator {
 
 	public static JTextField textFieldDisplay;
 	public static double Value1 = 0; // holds the value before the operation
+	public static double Save = 0;	// holds Saved Memory value
 
 	public static void main(String[] args) {
 		// Set up the user interface
@@ -36,7 +37,7 @@ public class BasicCalculator {
 		frame.add(buttonPanel);
 
 		// create two buttons, plus and equal and a text box for answers
-		textFieldDisplay = new JTextField(10);
+		textFieldDisplay = new JTextField(12);
 		buttonPanel.add(textFieldDisplay);
 		JButton buttonEqual = new JButton(" = ");
 		buttonPanel.add(buttonEqual);
@@ -79,8 +80,8 @@ public class BasicCalculator {
 		JButton buttonMem = new JButton("MR");
 		buttonPanel.add(buttonMem);
 		// create mem clear button
-		JButton buttonClear = new JButton("MC");
-		buttonPanel.add(buttonClear);
+		JButton buttonClr = new JButton("MC");
+		buttonPanel.add(buttonClr);
 		// create PI button
 		JButton buttonPi = new JButton("PI");
 		buttonPanel.add(buttonPi);
@@ -203,9 +204,82 @@ public class BasicCalculator {
 			}
 		}
 
+		// called when the 'tan' sign is pressed
+		class TanListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				//Value1 = Math.sin(Math.toRadians(Value1));
+				Double answer = new Double(Math.tan(Math.toRadians(Value1)));
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+
+		// called when the 'neg' sign is pressed
+		class NegListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				//Value1 = Math.sin(Math.toRadians(Value1));
+				Double answer = new Double(-Value1);
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+
+		// called when the '1/x' sign is pressed
+		class InvListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				//Value1 = Math.sin(Math.toRadians(Value1));
+				Double answer = new Double(1/Value1);
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+
+		// called when the 'pi' sign is pressed
+		class PiListener implements ActionListener {
+			public void actionPerformed(ActionEvent event)
+			{
+				Double answer = new Double(Math.PI);
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+
+		class SaveListener implements ActionListener {
+
+			public void actionPerformed(ActionEvent event)
+			{
+				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Save = Value1;
+			}
+		}
+
+		class MemListener implements ActionListener {
+
+			public void actionPerformed(ActionEvent event)
+			{
+				Double answer = new Double(Save);
+				textFieldDisplay.setText( answer.toString() );
+			}
+		}
+		class ClrListener implements ActionListener {
+
+			public void actionPerformed(ActionEvent event)
+			{
+//				Value1 = 0;
+				Save = 0;
+				Double answer = new Double(Value1);
+
+				textFieldDisplay.setText( answer.toString() );
+
+
+			}
+		}
+
 		// Add the methods that will be called when these buttons are pressed
-		ActionListener cosListener = new CosListener();
-		buttonCosine.addActionListener(cosListener);
+		ActionListener invListener = new InvListener();
+		buttonInv.addActionListener(invListener);
 		
 		ActionListener plusSignListener = new PlusSignListener();
 		buttonPlus.addActionListener(plusSignListener);
@@ -231,5 +305,25 @@ public class BasicCalculator {
 		ActionListener sinListener = new SinListener();
 		buttonSine.addActionListener(sinListener);
 
+		ActionListener cosListener = new CosListener();
+		buttonCosine.addActionListener(cosListener);
+		
+		ActionListener tanListener = new TanListener();
+		buttonTangent.addActionListener(tanListener);
+
+		ActionListener negListener = new NegListener();
+		buttonNeg.addActionListener(negListener);
+		
+		ActionListener saveListener = new SaveListener();
+		buttonSave.addActionListener(saveListener);
+		
+		ActionListener memListener = new MemListener();
+		buttonMem.addActionListener(memListener);
+		
+		ActionListener clrListener = new ClrListener();
+		buttonClr.addActionListener(clrListener);
+		
+		ActionListener piListener = new PiListener();
+		buttonPi.addActionListener(piListener);
 	}
 }
