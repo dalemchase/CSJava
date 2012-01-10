@@ -30,6 +30,19 @@ public class BasicCalculator {
 	public static double Value1 = 0; // holds the value before the operation
 	public static double Save = 0;	// holds Saved Memory value
 
+	// Read the text field with exception catching
+	public static double getNumber() {
+		double value = 0;
+		try {
+			value = Double.parseDouble(textFieldDisplay.getText());
+		}
+		catch (Exception e) {
+			System.out.println( "Bad value entered" );
+			textFieldDisplay.setText( "0.0" );
+		}
+		return value;
+	}
+
 	public static void main(String[] args) {
 		// Set up the user interface
 		JFrame frame = new JFrame();
@@ -37,7 +50,7 @@ public class BasicCalculator {
 		frame.add(buttonPanel);
 
 		// create two buttons, plus and equal and a text box for answers
-		textFieldDisplay = new JTextField(12);
+		textFieldDisplay = new JTextField(14);
 		buttonPanel.add(textFieldDisplay);
 		JButton buttonEqual = new JButton(" = ");
 		buttonPanel.add(buttonEqual);
@@ -97,7 +110,7 @@ public class BasicCalculator {
 
 			public void actionPerformed(ActionEvent event)
 			{
-				double Value2 = Double.parseDouble(textFieldDisplay.getText());
+				double Value2 = getNumber();
 				if (operation == ADDITION) {
 					// plus sign pressed before the equal sign
 					Value2 += Value1;
@@ -112,7 +125,10 @@ public class BasicCalculator {
 				}
 				else if (operation == DIVISION) {
 					 // divide sign pressed before the equal sign
-					Value2 = Value1 / Value2;
+					if (Value2 == 0) {
+						System.out.println("Divide by zero error");
+					} else
+							Value2 = Value1 / Value2;
 				}
 				else if (operation == POWER) {
 					 // POWER sign pressed before the equal sign
@@ -130,7 +146,7 @@ public class BasicCalculator {
 		class PlusSignListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				operation = ADDITION;
 			}
 		}
@@ -139,7 +155,7 @@ public class BasicCalculator {
 		class MinusSignListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				operation = SUBTRACTION;
 			}
 		}
@@ -148,7 +164,7 @@ public class BasicCalculator {
 		class MultiplySignListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				operation = MULTIPLICATION;
 			}
 		}
@@ -157,16 +173,16 @@ public class BasicCalculator {
 		class DivideSignListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				operation = DIVISION;
 			}
 		}
 
-		// called when a power sign 'PWR' is pressed
+		// called when a power sign 'a^b' is pressed
 		class PowerSignListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				operation = POWER;
 			}
 		}
@@ -175,7 +191,7 @@ public class BasicCalculator {
 		class SquareRootListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				Value1 = Math.sqrt(Value1);
 				Double answer = new Double(Value1);
 				textFieldDisplay.setText( answer.toString() );
@@ -186,7 +202,7 @@ public class BasicCalculator {
 		class SinListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				//Value1 = Math.sin(Math.toRadians(Value1));
 				Double answer = new Double(Math.sin(Math.toRadians(Value1)));
 				textFieldDisplay.setText( answer.toString() );
@@ -197,7 +213,7 @@ public class BasicCalculator {
 		class CosListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				//Value1 = Math.sin(Math.toRadians(Value1));
 				Double answer = new Double(Math.cos(Math.toRadians(Value1)));
 				textFieldDisplay.setText( answer.toString() );
@@ -208,18 +224,21 @@ public class BasicCalculator {
 		class TanListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				//Value1 = Math.sin(Math.toRadians(Value1));
+				if (Value1 == 90 || Value1 == 270) {
+					System.out.println("Undefined");
+				}
 				Double answer = new Double(Math.tan(Math.toRadians(Value1)));
 				textFieldDisplay.setText( answer.toString() );
 			}
 		}
 
-		// called when the 'neg' sign is pressed
+		// called when the '-x' sign is pressed
 		class NegListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				//Value1 = Math.sin(Math.toRadians(Value1));
 				Double answer = new Double(-Value1);
 				textFieldDisplay.setText( answer.toString() );
@@ -230,9 +249,15 @@ public class BasicCalculator {
 		class InvListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Double answer = new Double(0);
+				Value1 = getNumber();
 				//Value1 = Math.sin(Math.toRadians(Value1));
-				Double answer = new Double(1/Value1);
+				try {
+					answer = new Double(1/Value1);
+				}
+				catch (Exception e) {
+					System.out.println( "Division error" );
+				}
 				textFieldDisplay.setText( answer.toString() );
 			}
 		}
@@ -250,7 +275,7 @@ public class BasicCalculator {
 
 			public void actionPerformed(ActionEvent event)
 			{
-				Value1 = Double.parseDouble(textFieldDisplay.getText());
+				Value1 = getNumber();
 				Save = Value1;
 			}
 		}
