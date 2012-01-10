@@ -1,8 +1,4 @@
-/* Mr. Williams
- * BasicCalculator.java
- * January 9, 2008
- * Program is a template of a Calculator program with just the Addition function.
- * Students will add the other functions
+/* Ryan Chase
  */
 
 import java.awt.event.ActionEvent;
@@ -20,6 +16,7 @@ public class BasicCalculator {
 	// Keeps track of the current operation (subtract, add, etc)
 	private static final int NO_OPERATION = 0;
 	private static final int ADDITION = 1;
+
 	private static final int SUBTRACTION = 2;	// Define subtract op
 	private static final int MULTIPLICATION = 3;	// Define multiply op
 	private static final int DIVISION = 4;	// Define divide op
@@ -54,7 +51,8 @@ public class BasicCalculator {
 		buttonPanel.add(textFieldDisplay);
 		JButton buttonEqual = new JButton(" = ");
 		buttonPanel.add(buttonEqual);
-		JButton buttonPlus = new JButton(" + ");
+	
+	JButton buttonPlus = new JButton(" + ");
 		buttonPanel.add(buttonPlus);
 		// create subtract button
 		JButton buttonMinus = new JButton(" - ");
@@ -69,7 +67,7 @@ public class BasicCalculator {
 		JButton buttonPower = new JButton("a^b");
 		buttonPanel.add(buttonPower);
 		// create root button
-		JButton buttonRoot = new JButton(" C ");
+		JButton buttonRoot = new JButton(" sqr ");
 		buttonPanel.add(buttonRoot);
 		// create sine button
 		JButton buttonSine = new JButton("sin");
@@ -82,7 +80,8 @@ public class BasicCalculator {
 		buttonPanel.add(buttonTangent);
 		// create negative button
 		JButton buttonNeg = new JButton("-x ");
-		buttonPanel.add(buttonNeg);
+	
+	buttonPanel.add(buttonNeg);
 		// create invert button
 		JButton buttonInv = new JButton("1/x");
 		buttonPanel.add(buttonInv);
@@ -118,7 +117,8 @@ public class BasicCalculator {
 				else if (operation == SUBTRACTION) {
 					// minus sign pressed before the equal sign
 					Value2 = Value1 - Value2;
-				}
+			
+	}
 				else if (operation == MULTIPLICATION) {
 					 // multiply sign pressed before the equal sign
 					Value2 = Value1 * Value2;
@@ -161,7 +161,8 @@ public class BasicCalculator {
 		}
 
 		// called when a multiply sign '*' is pressed
-		class MultiplySignListener implements ActionListener {
+	
+	class MultiplySignListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
 				Value1 = getNumber();
@@ -185,16 +186,26 @@ public class BasicCalculator {
 				Value1 = getNumber();
 				operation = POWER;
 			}
-		}
+	
+	}
 
-		// called when the 'C' sign is pressed
+		// called when the 'sqr' sign is pressed
 		class SquareRootListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
 				Value1 = getNumber();
-				Value1 = Math.sqrt(Value1);
-				Double answer = new Double(Value1);
+				if (Value1 < 0){
+					Value1 = Math.abs(Value1);
+				double Value2 = Math.sqrt(Value1);
+				Double answer = new Double(Value2);
+				textFieldDisplay.setText( answer.toString() + "i" );
+				}
+				else{
+				double Value2 = Double.parseDouble(textFieldDisplay.getText());
+				Value2 = Math.sqrt(Value1);
+				Double answer = new Double(Value2);
 				textFieldDisplay.setText( answer.toString() );
+				}
 			}
 		}
 
@@ -215,13 +226,15 @@ public class BasicCalculator {
 			{
 				Value1 = getNumber();
 				//Value1 = Math.sin(Math.toRadians(Value1));
-				Double answer = new Double(Math.cos(Math.toRadians(Value1)));
+			
+	Double answer = new Double(Math.cos(Math.toRadians(Value1)));
 				textFieldDisplay.setText( answer.toString() );
 			}
 		}
 
 		// called when the 'tan' sign is pressed
-		class TanListener implements ActionListener {
+	
+	class TanListener implements ActionListener {
 			public void actionPerformed(ActionEvent event)
 			{
 				Value1 = getNumber();
@@ -230,7 +243,8 @@ public class BasicCalculator {
 					System.out.println("Undefined");
 				}
 				Double answer = new Double(Math.tan(Math.toRadians(Value1)));
-				textFieldDisplay.setText( answer.toString() );
+			
+	textFieldDisplay.setText( answer.toString() );
 			}
 		}
 
@@ -269,21 +283,25 @@ public class BasicCalculator {
 				Double answer = new Double(Math.PI);
 				textFieldDisplay.setText( answer.toString() );
 			}
-		}
+	
+	}
 
 		class SaveListener implements ActionListener {
 
 			public void actionPerformed(ActionEvent event)
 			{
 				Value1 = getNumber();
-				Save = Value1;
+			
+	Save = Value1;
 			}
 		}
 
 		class MemListener implements ActionListener {
 
 			public void actionPerformed(ActionEvent event)
-			{
+	
+	
+	{
 				Double answer = new Double(Save);
 				textFieldDisplay.setText( answer.toString() );
 			}
@@ -296,7 +314,8 @@ public class BasicCalculator {
 				Save = 0;
 				Double answer = new Double(Value1);
 
-				textFieldDisplay.setText( answer.toString() );
+			
+	textFieldDisplay.setText( answer.toString() );
 
 
 			}
@@ -305,7 +324,8 @@ public class BasicCalculator {
 		// Add the methods that will be called when these buttons are pressed
 		ActionListener invListener = new InvListener();
 		buttonInv.addActionListener(invListener);
-		
+	
+	
 		ActionListener plusSignListener = new PlusSignListener();
 		buttonPlus.addActionListener(plusSignListener);
 
@@ -325,7 +345,8 @@ public class BasicCalculator {
 		buttonPower.addActionListener(powerSignListener);
 
 		ActionListener squareRootListener = new SquareRootListener();
-		buttonRoot.addActionListener(squareRootListener);
+	
+	buttonRoot.addActionListener(squareRootListener);
 
 		ActionListener sinListener = new SinListener();
 		buttonSine.addActionListener(sinListener);
@@ -336,7 +357,8 @@ public class BasicCalculator {
 		ActionListener tanListener = new TanListener();
 		buttonTangent.addActionListener(tanListener);
 
-		ActionListener negListener = new NegListener();
+	
+	ActionListener negListener = new NegListener();
 		buttonNeg.addActionListener(negListener);
 		
 		ActionListener saveListener = new SaveListener();
