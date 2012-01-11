@@ -312,10 +312,10 @@ public class BasicCalculator {
 			{
 //				Value1 = 0;
 				Save = 0;
-				Double answer = new Double(Value1);
+				//Double answer = new Double(Value1);
 
 			
-	textFieldDisplay.setText( answer.toString() );
+	//textFieldDisplay.setText( answer.toString() );
 
 
 			}
